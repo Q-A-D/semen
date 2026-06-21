@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+    input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    .info { background: #e7f3ff; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Личный кабинет</h2>
+  <div class="info">
+    <p><strong>Статус:</strong> <span id="status">Проверка...</span></p>
+    <p><strong>User ID:</strong> <span id="userId">-</span></p>
+    <p><strong>Email:</strong> <span id="userEmail">-</span></p>
+  </div>
+  <h3>Создать профиль</h3>
+  <input type="text" id="displayName" placeholder="Отображаемое имя">
+  <textarea id="bio" placeholder="О себе" rows="3"></textarea>
+  <button onclick="createProfile()">Создать профиль</button>
+  <div id="profileResult"></div>
+  <script src="dashboard.js"></script>
+</body>
+</html>

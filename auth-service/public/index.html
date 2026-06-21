@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Auth Service</title>
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 50px auto; padding: 20px; }
+    input { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+    button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+    .message { margin-top: 20px; padding: 10px; border-radius: 4px; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <h2>Регистрация / Вход</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Пароль">
+  <button onclick="register()">Зарегистрироваться</button>
+  <button onclick="login()" style="margin-top: 10px; background: #28a745;">Войти</button>
+  <div id="message"></div>
+
+  <script>
+    async function register() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      try {
+        const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+        const data = await res.json();
+        showMessage(data.message || data.error, res.ok);
+      } catch (err) { showMessage('Ошибка соединения', false); }
+    }
+    async function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      try {
+        const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.token);
+          showMessage('Вход успешен!', true);
+          setTimeout(() => window.location.href = '/dashboard.html', 1000);
+        } else { showMessage(data.error, false); }
+      } catch (err) { showMessage('Ошибка соединения', false); }
+    }
+    function showMessage(text, isSuccess) {
+      const msgDiv = document.getElementById('message');
+      msgDiv.textContent = text;
+      msgDiv.className = 'message ' + (isSuccess ? 'success' : 'error');
+    }
+  </script>
+</body>
+</html>
